@@ -58,7 +58,7 @@ namespace PocketNet.PocketNet.Authenticator
 
         public string BuildAuthorizeUri(string requestToken)
         {
-            return String.Format("https://getpocket.com/v3/oauth/authorize?request_token={0}&redirect_uri={1}",
+            return String.Format("https://getpocket.com/auth/authorize?request_token={0}&redirect_uri={1}",
                                  requestToken, _redirectUri);
         }
     }

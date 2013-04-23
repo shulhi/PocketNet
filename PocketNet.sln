@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketNet", "PocketNet\PocketNet.csproj", "{22D4FE4D-A548-4130-852A-82F3E6AB4A17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketNetTest", "PocketNetTest\PocketNetTest.csproj", "{4AEC6274-D4EA-4806-A08E-3C3F5139BF5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketNet.Test", "PocketNetTest\PocketNet.Test.csproj", "{4AEC6274-D4EA-4806-A08E-3C3F5139BF5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketNet.Sample", "PocketNet.Sample\PocketNet.Sample.csproj", "{629DC9E9-2F44-4594-9F8F-D9E80C064610}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,30 @@ Global
 		{4AEC6274-D4EA-4806-A08E-3C3F5139BF5E}.Release|x86.ActiveCfg = Release|x86
 		{4AEC6274-D4EA-4806-A08E-3C3F5139BF5E}.Release|x86.Build.0 = Release|x86
 		{4AEC6274-D4EA-4806-A08E-3C3F5139BF5E}.Release|x86.Deploy.0 = Release|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|ARM.ActiveCfg = Debug|ARM
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|ARM.Build.0 = Debug|ARM
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|ARM.Deploy.0 = Debug|ARM
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|x86.ActiveCfg = Debug|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|x86.Build.0 = Debug|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Debug|x86.Deploy.0 = Debug|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|ARM.ActiveCfg = Release|ARM
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|ARM.Build.0 = Release|ARM
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|ARM.Deploy.0 = Release|ARM
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|Mixed Platforms.Build.0 = Release|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|x86.ActiveCfg = Release|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|x86.Build.0 = Release|x86
+		{629DC9E9-2F44-4594-9F8F-D9E80C064610}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
