@@ -10,11 +10,23 @@ namespace PocketNetTest.AuthenticationTests
         [TestMethod]
         public async Task Oauth_RequestToken_OK()
         {
-            var pocket = new PocketOauth("11138-795ce1635b4487cac002aa0b", "http://www.google.com");
+            var pocket = new PocketOauth("consumer_key", "rediret_uri");
 
-            var token = await pocket.GetRequestToken();
+            var token = await pocket.GetRequestTokenAsync();
 
             Assert.AreEqual(30, token.Length);
+        }
+
+        // This doesn't work for now as need to authorize the app first (in step 2)
+        [TestMethod]
+        public async Task Oauth_AccessToken_OK()
+        {
+            var pocket = new PocketOauth("consumer_key", "rediret_uri");
+            const string requestToken = "request_token";
+
+            var token = await pocket.GetAccessTokenAsync(requestToken);
+
+            Assert.IsNotNull(token);
         }
     }
 }

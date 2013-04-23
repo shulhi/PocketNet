@@ -18,7 +18,7 @@ namespace PocketNet.PocketNet.Authenticator
             _redirectUri = redirectUri;
         }
 
-        public async Task<string> GetRequestToken()
+        public async Task<string> GetRequestTokenAsync()
         {
             using (var client = new HttpClient())
             {
@@ -37,14 +37,29 @@ namespace PocketNet.PocketNet.Authenticator
             }
         }
 
-        public Task<string> GetAccessToken(string requestToken)
+        public async Task<string> GetAccessTokenAsync(string requestToken)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://getpocket.com");
+
+                var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("consumer_key", _consumerKey),
+                        new KeyValuePair<string, string>("code", requestToken)
+                    });
+
+                var result = await client.PostAsync("/v3/oauth/authorize", content);
+                var resultContent = result.Content.ReadAsStringAsync().Result;
+
+                return resultContent.Substring(13,30);
+            }
         }
 
         public string BuildAuthorizeUri(string requestToken)
         {
-            throw new NotImplementedException();
+            return String.Format("https://getpocket.com/v3/oauth/authorize?request_token={0}&redirect_uri={1}",
+                                 requestToken, _redirectUri);
         }
     }
 }

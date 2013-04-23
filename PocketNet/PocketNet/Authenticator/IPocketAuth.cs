@@ -8,8 +8,8 @@ namespace PocketNet.PocketNet.Authenticator
 {
     public interface IPocketAuth
     {
-        Task<string> GetRequestToken();
-        Task<string> GetAccessToken(string requestToken);
+        Task<string> GetRequestTokenAsync();
+        Task<string> GetAccessTokenAsync(string requestToken);
         string BuildAuthorizeUri(string requestToken);
     }
 }
