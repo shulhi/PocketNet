@@ -58,5 +58,10 @@ namespace PocketNet.Sample
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void LoginPocket_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
