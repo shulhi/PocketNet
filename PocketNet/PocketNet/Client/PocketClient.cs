@@ -21,16 +21,11 @@ namespace PocketNet.PocketNet.Client
             _consumerKey = consumerKey;
             _accessToken = accessToken;
             _httpClient = new HttpClient();
-
-            _httpClient.DefaultRequestHeaders.Add("User-Agent", "PocketNet");
         }
 
         public void GetAllItems()
         {
-            var requestUrl = MakeRequestUri("v3/get");
-            var request = new HttpRequest(HttpMethod.Post, requestUrl);
-
-            // Pass request to SendAsync
+            
         }
 
         private async Task<T> SendAsync<T>(HttpRequest request) where T : class
