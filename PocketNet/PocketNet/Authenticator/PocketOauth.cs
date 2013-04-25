@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PocketNet.PocketNet.Info;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace PocketNet.PocketNet.Authenticator
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://getpocket.com");
+                client.BaseAddress = new Uri(PocketInfo.BaseUri);
 
                 var content = new FormUrlEncodedContent(new[]
                     {
@@ -42,7 +43,7 @@ namespace PocketNet.PocketNet.Authenticator
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://getpocket.com");
+                client.BaseAddress = new Uri(PocketInfo.BaseUri);
 
                 var content = new FormUrlEncodedContent(new[]
                     {

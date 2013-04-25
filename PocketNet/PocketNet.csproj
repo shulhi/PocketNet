@@ -100,6 +100,8 @@
     <Compile Include="PocketNet\Authenticator\IPocketAuth.cs" />
     <Compile Include="PocketNet\Authenticator\PocketOauth.cs" />
     <Compile Include="PocketNet\Client\PocketClient.cs" />
+    <Compile Include="PocketNet\HttpHelpers\HttpParameter.cs" />
+    <Compile Include="PocketNet\HttpHelpers\HttpRequest.cs" />
     <Compile Include="PocketNet\Info\PocketInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
