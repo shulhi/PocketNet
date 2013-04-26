@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using PocketNet.PocketNet.Models;
 
 namespace PocketNet.PocketNet.Client
 {
@@ -20,40 +21,28 @@ namespace PocketNet.PocketNet.Client
         {
             _consumerKey = consumerKey;
             _accessToken = accessToken;
+
             _httpClient = new HttpClient();
         }
 
-        public async Task<string> GetAllItems()
+        public async Task<PocketObject> GetPocketObjectAsync()
         {
-            //var requestUrl = "https://getpocket.com/v3/get";
+            var requestUrl = MakeRequestUri("v3/get");
 
-            //var request = new HttpRequest(HttpMethod.Post, requestUrl);
+            var request = new HttpRequest(HttpMethod.Post, requestUrl)
+                {
+                    Content = new StringContent(
+                        JsonConvert.SerializeObject(new
+                            {
+                                consumer_key = _consumerKey,
+                                access_token = _accessToken,
+                                state = "unread",
+                                sort = "newest"
+                            }),
+                        Encoding.UTF8, "application/json")
+                };
 
-            //request.Content =
-            //    new StringContent(
-            //        JsonConvert.SerializeObject(new {consumer_key = _consumerKey, access_token = _accessToken}),
-            //                                    Encoding.UTF8, "application/json");
-
-            //return await SendAsync(request);
-        }
-
-        private async Task<T> SendAsync<T>(HttpRequest request) where T : class 
-        {
-            HttpResponseMessage response;
-
-            try
-            {
-                response = await _httpClient.SendAsync(request);
-            }
-            catch (Exception e)
-            {
-                // TODO: Do error checking here
-                throw;
-            }
-
-            var responseBody = await response.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<T>(responseBody);
+            return await SendAsync<PocketObject>(request);
         }
     }
 }

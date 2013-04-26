@@ -11,6 +11,7 @@ using PocketNet.Sample.Resources;
 using PocketNet.PocketNet.Authenticator;
 using Microsoft.Phone.Tasks;
 using PocketNet.PocketNet.Client;
+using PocketNet.PocketNet.Models;
 
 namespace PocketNet.Sample
 {
@@ -56,7 +57,9 @@ namespace PocketNet.Sample
 
                     _pocketClient = new PocketClient("11138-795ce1635b4487cac002aa0b", accessToken);
 
-                    TokenContent.Text = await _pocketClient.GetAllItems();
+                    PocketObject pocketObject = await _pocketClient.GetPocketObjectAsync();
+
+                    TokenContent.Text = pocketObject.List.First().Value.Excerpt;
                 }
             }
             catch (Exception ex)
