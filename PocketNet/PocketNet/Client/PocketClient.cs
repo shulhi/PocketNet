@@ -25,19 +25,19 @@ namespace PocketNet.PocketNet.Client
 
         public async Task<string> GetAllItems()
         {
-            var requestUrl = "https://getpocket.com/v3/get";
+            //var requestUrl = "https://getpocket.com/v3/get";
 
-            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+            //var request = new HttpRequest(HttpMethod.Post, requestUrl);
 
-            request.Content =
-                new StringContent(
-                    JsonConvert.SerializeObject(new {consumer_key = _consumerKey, access_token = _accessToken}),
-                                                Encoding.UTF8, "application/json");
+            //request.Content =
+            //    new StringContent(
+            //        JsonConvert.SerializeObject(new {consumer_key = _consumerKey, access_token = _accessToken}),
+            //                                    Encoding.UTF8, "application/json");
 
-            return await SendAsync(request);
+            //return await SendAsync(request);
         }
 
-        private async Task<string> SendAsync(HttpRequest request)
+        private async Task<T> SendAsync<T>(HttpRequest request) where T : class 
         {
             HttpResponseMessage response;
 
@@ -51,7 +51,9 @@ namespace PocketNet.PocketNet.Client
                 throw;
             }
 
-            return await response.Content.ReadAsStringAsync();
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseBody);
         }
     }
 }
