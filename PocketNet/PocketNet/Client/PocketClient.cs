@@ -44,5 +44,62 @@ namespace PocketNet.PocketNet.Client
 
             return await SendAsync<PocketObject>(request);
         }
+
+        public async Task<List<Article>> GetAllUnreadAsync()
+        {
+            var requestUrl = MakeRequestUri("v3/get");
+
+            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+            
+            request.AddBody(new
+                {
+                    consumer_key = _consumerKey,
+                    access_token = _accessToken,
+                    state = "unread",
+                    sort = "newest"
+                });
+
+            var po = await SendAsync<PocketObject>(request);
+            
+            return po.List.Values.ToList();
+        }
+
+        public async Task<List<Article>> GetFavoriteAsync()
+        {
+            var requestUrl = MakeRequestUri("v3/get");
+
+            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+
+            request.AddBody(new
+                {
+                    consumer_key = _consumerKey,
+                    access_token = _accessToken,
+                    favorite = 1,
+                    sort = "newest"
+                });
+
+            var po = await SendAsync<PocketObject>(request);
+
+            return po.List.Values.ToList();
+        }
+
+        public async Task<List<Article>> GetArchivedAsync()
+        {
+            var requestUrl = MakeRequestUri("v3/get");
+
+            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+
+            request.AddBody(new
+                {
+                    consumer_key = _consumerKey,
+                    access_token = _accessToken,
+                    state = "archive",
+                    sort = "newest"
+                });
+
+            var po = await SendAsync<PocketObject>(request);
+
+            return po.List.Values.ToList();
+        }
     }
 }
