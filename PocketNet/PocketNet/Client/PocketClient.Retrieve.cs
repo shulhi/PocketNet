@@ -29,18 +29,14 @@ namespace PocketNet.PocketNet.Client
         {
             var requestUrl = MakeRequestUri("v3/get");
 
-            var request = new HttpRequest(HttpMethod.Post, requestUrl)
+            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+            request.AddBody(new
                 {
-                    Content = new StringContent(
-                        JsonConvert.SerializeObject(new
-                            {
-                                consumer_key = _consumerKey,
-                                access_token = _accessToken,
-                                state = "unread",
-                                sort = "newest"
-                            }),
-                        Encoding.UTF8, "application/json")
-                };
+                    consumer_key = _consumerKey,
+                    access_token = _accessToken,
+                    state = "unread",
+                    sort = "newest"
+                });
 
             return await SendAsync<ItemRetrievedWrapper>(request);
         }
