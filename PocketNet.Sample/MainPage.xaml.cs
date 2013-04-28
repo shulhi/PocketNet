@@ -57,7 +57,7 @@ namespace PocketNet.Sample
 
                     _pocketClient = new PocketClient("11138-795ce1635b4487cac002aa0b", accessToken);
 
-                    PocketObject pocketObject = await _pocketClient.GetPocketObjectAsync();
+                    ItemRetrievedWrapper pocketObject = await _pocketClient.GetPocketObjectAsync();
 
                     TokenContent.Text = pocketObject.List.First().Value.Excerpt;
                 }

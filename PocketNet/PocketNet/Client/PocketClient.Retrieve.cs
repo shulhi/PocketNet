@@ -25,7 +25,7 @@ namespace PocketNet.PocketNet.Client
             _httpClient = new HttpClient();
         }
 
-        public async Task<PocketObject> GetPocketObjectAsync()
+        public async Task<ItemRetrievedWrapper> GetPocketObjectAsync()
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -42,10 +42,10 @@ namespace PocketNet.PocketNet.Client
                         Encoding.UTF8, "application/json")
                 };
 
-            return await SendAsync<PocketObject>(request);
+            return await SendAsync<ItemRetrievedWrapper>(request);
         }
 
-        public async Task<List<Article>> GetAllUnreadAsync()
+        public async Task<List<ItemRetrieved>> GetAllUnreadAsync()
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -59,12 +59,12 @@ namespace PocketNet.PocketNet.Client
                     sort = "newest"
                 });
 
-            var po = await SendAsync<PocketObject>(request);
+            var po = await SendAsync<ItemRetrievedWrapper>(request);
             
             return po.List.Values.ToList();
         }
 
-        public async Task<List<Article>> GetFavoriteAsync()
+        public async Task<List<ItemRetrieved>> GetFavoriteAsync()
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -78,12 +78,12 @@ namespace PocketNet.PocketNet.Client
                     sort = "newest"
                 });
 
-            var po = await SendAsync<PocketObject>(request);
+            var po = await SendAsync<ItemRetrievedWrapper>(request);
 
             return po.List.Values.ToList();
         }
 
-        public async Task<List<Article>> GetArchivedAsync()
+        public async Task<List<ItemRetrieved>> GetArchivedAsync()
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -97,7 +97,7 @@ namespace PocketNet.PocketNet.Client
                     sort = "newest"
                 });
 
-            var po = await SendAsync<PocketObject>(request);
+            var po = await SendAsync<ItemRetrievedWrapper>(request);
 
             return po.List.Values.ToList();
         }
