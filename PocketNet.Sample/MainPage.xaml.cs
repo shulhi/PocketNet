@@ -26,7 +26,7 @@ namespace PocketNet.Sample
 
             // For this example, I implement the Uri association feature for WP8
             // Refer http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8
-            _pocketOauth = new PocketOauth("13800-484706a3a08844c6ab34ccf6", "getpocket:MainPage");
+            _pocketOauth = new PocketOauth("13800-484706a3a08844c6ab34ccf6xx", "getpocket:MainPage");
         }
 
         private async void LoginPocket_OnClick(object sender, RoutedEventArgs e)

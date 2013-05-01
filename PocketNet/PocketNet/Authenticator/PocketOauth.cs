@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Net.Http.Headers;
 
 namespace PocketNet.PocketNet.Authenticator
 {
@@ -28,6 +29,7 @@ namespace PocketNet.PocketNet.Authenticator
         public async Task<string> GetRequestTokenAsync()
         {
             _httpClient.BaseAddress = new Uri(PocketInfo.BaseUri);
+            _httpClient.DefaultRequestHeaders.Add("X-Accept", "application/x-www-form-urlencoded");
 
             var content = new FormUrlEncodedContent(new[]
                 {
@@ -37,9 +39,11 @@ namespace PocketNet.PocketNet.Authenticator
 
             var response = await _httpClient.PostAsync("/v3/oauth/request", content);
 
+            // I dont want to use response.EnsureSuccessStatusCode() as the Exception thrown doesn't has the details that I need
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                MessageBox.Show(response.StatusCode.ToString() + " " + response.Content);
+                // I want to pass the details of the X-Code and X-Code-Error into custom exception
+                // throw new PocketNetException();
             }
 
             var resultContent = response.Content.ReadAsStringAsync().Result;
