@@ -96,5 +96,25 @@ namespace PocketNet.PocketNet.Client
 
             return response.List.Values.ToList();
         }
+
+        public async Task<List<ItemRetrieved>> SearchTitleOrUrlAsync(string term)
+        {
+            var requestUrl = MakeRequestUri("v3/get");
+
+            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+
+            request.AddBody(new
+            {
+                consumer_key = _consumerKey,
+                access_token = _accessToken,
+                state = "archive",
+                sort = "newest",
+                search = term
+            });
+
+            var response = await SendAsync<ItemRetrievedWrapper>(request);
+
+            return response.List.Values.ToList();
+        }
     }
 }

@@ -23,7 +23,7 @@ Pocket follows three simple steps to authenticate. Use PocketNet as below to han
 3. Make a request for `access_token`
 
         // You will need to pass the request token from step 1
-        var accessToken = _pocketOauth.GetAccessTokenAsync(requestToken);
+        var accessToken = await _pocketOauth.GetAccessTokenAsync(requestToken);
 
 Retrieving items
 ----------

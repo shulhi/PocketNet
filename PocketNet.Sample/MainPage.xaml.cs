@@ -26,7 +26,7 @@ namespace PocketNet.Sample
 
             // For this example, I implement the Uri association feature for WP8
             // Refer http://www.developer.nokia.com/Community/Wiki/URI_associations_for_Windows_Phone_8
-            _pocketOauth = new PocketOauth("11138-795ce1635b4487cac002aa0b", "getpocket:MainPage");
+            _pocketOauth = new PocketOauth("13800-484706a3a08844c6ab34ccf6", "getpocket:MainPage");
         }
 
         private async void LoginPocket_OnClick(object sender, RoutedEventArgs e)
@@ -57,9 +57,9 @@ namespace PocketNet.Sample
 
                     _pocketClient = new PocketClient("11138-795ce1635b4487cac002aa0b", accessToken);
 
-                    ItemRetrievedWrapper pocketObject = await _pocketClient.GetPocketObjectAsync();
+                    var pocketObject = await _pocketClient.GetAllUnreadAsync();
 
-                    TokenContent.Text = pocketObject.List.First().Value.Excerpt;
+                    TokenContent.Text = pocketObject.First().Excerpt;
                 }
             }
             catch (Exception ex)

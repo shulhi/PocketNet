@@ -101,6 +101,7 @@
     <Compile Include="PocketNet\Authenticator\PocketOauth.cs" />
     <Compile Include="PocketNet\Client\PocketClient.Add.cs" />
     <Compile Include="PocketNet\Client\PocketClient.Retrieve.cs" />
+    <Compile Include="PocketNet\Exceptions\PocketException.cs" />
     <Compile Include="PocketNet\HttpHelpers\HttpParameter.cs" />
     <Compile Include="PocketNet\HttpHelpers\HttpRequest.cs" />
     <Compile Include="PocketNet\Info\PocketInfo.cs" />
