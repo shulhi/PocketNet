@@ -22,22 +22,6 @@ namespace PocketNet.PocketNet.Client
             _httpClient = new HttpClient();
         }
 
-        public async Task<ItemRetrievedWrapper> GetPocketObjectAsync()
-        {
-            var requestUrl = MakeRequestUri("v3/get");
-
-            var request = new HttpRequest(HttpMethod.Post, requestUrl);
-            request.AddBody(new
-                {
-                    consumer_key = _consumerKey,
-                    access_token = _accessToken,
-                    state = "unread",
-                    sort = "newest"
-                });
-
-            return await SendAsync<ItemRetrievedWrapper>(request);
-        }
-
         /// <summary>
         /// Retrieve all unread items
         /// </summary>

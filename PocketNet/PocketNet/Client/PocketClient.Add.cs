@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using PocketNet.PocketNet.Models;
 using PocketNet.PocketNet.HttpHelpers;
 using System.Net.Http;
+using System.Net;
 
 namespace PocketNet.PocketNet.Client
 {
     public partial class PocketClient
     {
-        // Not sure to let user encode, or we encode for them
-        // Currently user need to encode
-        public async Task<ItemAddedWrapper> AddItemAsync(string encodedUriToAdd)
+        public async Task<ItemAddedWrapper> AddItemAsync(string uri)
         {
             var requestUri = MakeRequestUri("v3/add");
+            var encodedUri = HttpUtility.UrlEncode(uri);
 
             var request = new HttpRequest(HttpMethod.Post, requestUri);
 
@@ -23,7 +23,7 @@ namespace PocketNet.PocketNet.Client
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
-                    url = encodedUriToAdd
+                    url = encodedUri
                 });
 
             var response = await SendAsync<ItemAddedWrapper>(request);

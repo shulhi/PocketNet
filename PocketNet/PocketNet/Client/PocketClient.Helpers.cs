@@ -12,12 +12,12 @@ namespace PocketNet.PocketNet.Client
 {
     public partial class PocketClient
     {
-        private string MakeRequestUri(string resourceUri)
+        protected string MakeRequestUri(string resourceUri)
         {
             return String.Format("{0}/{1}", PocketInfo.BaseUri, resourceUri);
         }
 
-        private async Task<T> SendAsync<T>(HttpRequest request) where T : class
+        protected async Task<T> SendAsync<T>(HttpRequest request) where T : class
         {
             HttpResponseMessage response;
 
