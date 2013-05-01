@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-using PocketNet.PocketNet.HttpHelpers;
-using System;
+﻿using PocketNet.PocketNet.HttpHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using PocketNet.PocketNet.Models;
 
@@ -41,7 +38,12 @@ namespace PocketNet.PocketNet.Client
             return await SendAsync<ItemRetrievedWrapper>(request);
         }
 
-        public async Task<List<ItemRetrieved>> GetAllUnreadAsync()
+        /// <summary>
+        /// Retrieve all unread items
+        /// </summary>
+        /// <param name="sinceInUnixTime">To retrieve the item since when (optional). Value must be in Unix Time. Will retrieve all available items if value is not specified.</param>
+        /// <returns>List of item retrieved</returns>
+        public async Task<List<ItemRetrieved>> GetAllUnreadAsync(int sinceInUnixTime = 0)
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -52,15 +54,21 @@ namespace PocketNet.PocketNet.Client
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
                     state = "unread",
-                    sort = "newest"
+                    sort = "newest",
+                    since = sinceInUnixTime
                 });
 
-            var po = await SendAsync<ItemRetrievedWrapper>(request);
+            var response = await SendAsync<ItemRetrievedWrapper>(request);
             
-            return po.List.Values.ToList();
+            return response.List.Values.ToList();
         }
 
-        public async Task<List<ItemRetrieved>> GetFavoriteAsync()
+        /// <summary>
+        /// Retrieve all favorite items
+        /// </summary>
+        /// <param name="sinceInUnixTime">To retrieve the item since when (optional). Value must be in Unix Time. Will retrieve all available items if value is not specified.</param>
+        /// <returns>List of item retrieved</returns>
+        public async Task<List<ItemRetrieved>> GetFavoriteAsync(int sinceInUnixTime = 0)
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -71,15 +79,21 @@ namespace PocketNet.PocketNet.Client
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
                     favorite = 1,
-                    sort = "newest"
+                    sort = "newest",
+                    since = sinceInUnixTime
                 });
 
-            var po = await SendAsync<ItemRetrievedWrapper>(request);
+            var response = await SendAsync<ItemRetrievedWrapper>(request);
 
-            return po.List.Values.ToList();
+            return response.List.Values.ToList();
         }
 
-        public async Task<List<ItemRetrieved>> GetArchivedAsync()
+        /// <summary>
+        /// Retrieve all archived items
+        /// </summary>
+        /// <param name="sinceInUnixTime">To retrieve the item since when (optional). Value must be in Unix Time. Will retrieve all available items if value is not specified.</param>
+        /// <returns>List of item retrieved</returns>
+        public async Task<List<ItemRetrieved>> GetArchivedAsync(int sinceInUnixTime = 0)
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -90,12 +104,13 @@ namespace PocketNet.PocketNet.Client
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
                     state = "archive",
-                    sort = "newest"
+                    sort = "newest",
+                    since = sinceInUnixTime
                 });
 
-            var po = await SendAsync<ItemRetrievedWrapper>(request);
+            var response = await SendAsync<ItemRetrievedWrapper>(request);
 
-            return po.List.Values.ToList();
+            return response.List.Values.ToList();
         }
     }
 }
