@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Newtonsoft.Json;
 using PocketNet.PocketNet.Exceptions;
+using PocketNet.PocketNet.HttpHelpers;
 using PocketNet.PocketNet.Info;
 using System;
 using System.Collections.Generic;
@@ -38,14 +39,10 @@ namespace PocketNet.PocketNet.Authenticator
                 });
 
             var response = await _httpClient.PostAsync("/v3/oauth/request", content);
-
-            // I dont want to use response.EnsureSuccessStatusCode() as the Exception thrown doesn't has the details that I need
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                // I want to pass the details of the X-Code and X-Code-Error into custom exception
-                // throw new PocketNetException();
-            }
-
+            // don't use response.response.EnsureSuccessStatusCode() because exception thrown is does not detail enough
+            // instead use this extension to throw custom exception
+            response.RaiseExceptionWhenError();
+            
             var resultContent = response.Content.ReadAsStringAsync().Result;
 
             return resultContent.Substring(5, 30);
@@ -63,8 +60,10 @@ namespace PocketNet.PocketNet.Authenticator
                         new KeyValuePair<string, string>("code", requestToken)
                     });
 
-                var result = await client.PostAsync("/v3/oauth/authorize", content);
-                var resultContent = result.Content.ReadAsStringAsync().Result;
+                var response = await client.PostAsync("/v3/oauth/authorize", content);
+                response.RaiseExceptionWhenError();
+
+                var resultContent = response.Content.ReadAsStringAsync().Result;
 
                 return resultContent.Substring(13, 30);
             }
@@ -72,6 +71,9 @@ namespace PocketNet.PocketNet.Authenticator
 
         public string BuildAuthorizeUri(string requestToken)
         {
+            if (String.IsNullOrEmpty(requestToken))
+                throw new ArgumentNullException("requestToken", "Request token cannot be null or empty.");
+
             return String.Format("https://getpocket.com/auth/authorize?request_token={0}&redirect_uri={1}",
                                  requestToken, _redirectUri);
         }
