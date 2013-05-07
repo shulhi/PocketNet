@@ -25,10 +25,7 @@ namespace PocketNet.PocketNet.Client
 
         public async Task<List<ItemRetrieved>> GetAllUnreadAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
-            var requestUrl = MakeRequestUri("v3/get");
-            var request = new HttpRequest(HttpMethod.Post, requestUrl);
-            
-            request.AddBody(new
+            return await GetValuesAsync(new
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
@@ -38,19 +35,11 @@ namespace PocketNet.PocketNet.Client
                     count = numberOfItems,
                     offset = offSet
                 });
-
-            var response = await SendAsync<ItemRetrievedWrapper>(request);
-            
-            return response.List.Values.ToList();
         }
 
         public async Task<List<ItemRetrieved>> GetFavoriteAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
-            var requestUrl = MakeRequestUri("v3/get");
-
-            var request = new HttpRequest(HttpMethod.Post, requestUrl);
-
-            request.AddBody(new
+            return await GetValuesAsync(new
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
@@ -60,18 +49,11 @@ namespace PocketNet.PocketNet.Client
                     count = numberOfItems,
                     offset = offSet
                 });
-
-            var response = await SendAsync<ItemRetrievedWrapper>(request);
-
-            return response.List.Values.ToList();
         }
 
         public async Task<List<ItemRetrieved>> GetArchivedAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
-            var requestUrl = MakeRequestUri("v3/get");
-            var request = new HttpRequest(HttpMethod.Post, requestUrl);
-
-            request.AddBody(new
+            return await GetValuesAsync(new
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
@@ -81,10 +63,6 @@ namespace PocketNet.PocketNet.Client
                     count = numberOfItems,
                     offset = offSet
                 });
-
-            var response = await SendAsync<ItemRetrievedWrapper>(request);
-
-            return response.List.Values.ToList();
         }
 
         public async Task<List<ItemRetrieved>> SearchTitleOrUrlAsync(string term)
@@ -92,20 +70,24 @@ namespace PocketNet.PocketNet.Client
             if(string.IsNullOrEmpty(term))
                 throw new ArgumentNullException("term");
 
-            var requestUrl = MakeRequestUri("v3/get");
-            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+            return await GetValuesAsync(new
+                {
+                    consumer_key = _consumerKey,
+                    access_token = _accessToken,
+                    state = "archive",
+                    sort = "newest",
+                    search = term
+                });
+        }
 
-            request.AddBody(new
-            {
-                consumer_key = _consumerKey,
-                access_token = _accessToken,
-                state = "archive",
-                sort = "newest",
-                search = term
-            });
+        private async Task<List<ItemRetrieved>> GetValuesAsync(object parametersAsAnonymousObject)
+        {
+            var requestUrl = MakeRequestUri("v3/get");
+
+            var request = new HttpRequest(HttpMethod.Post, requestUrl);
+            request.AddBody(parametersAsAnonymousObject);
 
             var response = await SendAsync<ItemRetrievedWrapper>(request);
-
             return response.List.Values.ToList();
         }
     }
