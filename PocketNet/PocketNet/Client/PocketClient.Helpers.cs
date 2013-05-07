@@ -19,18 +19,9 @@ namespace PocketNet.PocketNet.Client
 
         protected async Task<T> SendAsync<T>(HttpRequest request) where T : class
         {
-            HttpResponseMessage response;
-
-            try
-            {
-                response = await _httpClient.SendAsync(request);
-            }
-            catch (Exception e)
-            {
-                // TODO: Do error checking here
-                throw;
-            }
-
+            var response = await _httpClient.SendAsync(request);
+            response.RaiseExceptionWhenError();
+            
             var responseBody = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<T>(responseBody);

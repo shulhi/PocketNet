@@ -1,4 +1,5 @@
-﻿using PocketNet.PocketNet.HttpHelpers;
+﻿using System;
+using PocketNet.PocketNet.HttpHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -22,15 +23,9 @@ namespace PocketNet.PocketNet.Client
             _httpClient = new HttpClient();
         }
 
-        /// <summary>
-        /// Retrieve all unread items
-        /// </summary>
-        /// <param name="sinceInUnixTime">To retrieve the item since when (optional). Value must be in Unix Time. Will retrieve all available items if value is not specified.</param>
-        /// <returns>List of item retrieved</returns>
-        public async Task<List<ItemRetrieved>> GetAllUnreadAsync(int sinceInUnixTime = 0)
+        public async Task<List<ItemRetrieved>> GetAllUnreadAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
             var requestUrl = MakeRequestUri("v3/get");
-
             var request = new HttpRequest(HttpMethod.Post, requestUrl);
             
             request.AddBody(new
@@ -39,7 +34,9 @@ namespace PocketNet.PocketNet.Client
                     access_token = _accessToken,
                     state = "unread",
                     sort = "newest",
-                    since = sinceInUnixTime
+                    since = sinceInUnixTime,
+                    count = numberOfItems,
+                    offset = offSet
                 });
 
             var response = await SendAsync<ItemRetrievedWrapper>(request);
@@ -47,12 +44,7 @@ namespace PocketNet.PocketNet.Client
             return response.List.Values.ToList();
         }
 
-        /// <summary>
-        /// Retrieve all favorite items
-        /// </summary>
-        /// <param name="sinceInUnixTime">To retrieve the item since when (optional). Value must be in Unix Time. Will retrieve all available items if value is not specified.</param>
-        /// <returns>List of item retrieved</returns>
-        public async Task<List<ItemRetrieved>> GetFavoriteAsync(int sinceInUnixTime = 0)
+        public async Task<List<ItemRetrieved>> GetFavoriteAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
             var requestUrl = MakeRequestUri("v3/get");
 
@@ -64,7 +56,9 @@ namespace PocketNet.PocketNet.Client
                     access_token = _accessToken,
                     favorite = 1,
                     sort = "newest",
-                    since = sinceInUnixTime
+                    since = sinceInUnixTime,
+                    count = numberOfItems,
+                    offset = offSet
                 });
 
             var response = await SendAsync<ItemRetrievedWrapper>(request);
@@ -72,15 +66,9 @@ namespace PocketNet.PocketNet.Client
             return response.List.Values.ToList();
         }
 
-        /// <summary>
-        /// Retrieve all archived items
-        /// </summary>
-        /// <param name="sinceInUnixTime">To retrieve the item since when (optional). Value must be in Unix Time. Will retrieve all available items if value is not specified.</param>
-        /// <returns>List of item retrieved</returns>
-        public async Task<List<ItemRetrieved>> GetArchivedAsync(int sinceInUnixTime = 0)
+        public async Task<List<ItemRetrieved>> GetArchivedAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
             var requestUrl = MakeRequestUri("v3/get");
-
             var request = new HttpRequest(HttpMethod.Post, requestUrl);
 
             request.AddBody(new
@@ -89,7 +77,9 @@ namespace PocketNet.PocketNet.Client
                     access_token = _accessToken,
                     state = "archive",
                     sort = "newest",
-                    since = sinceInUnixTime
+                    since = sinceInUnixTime,
+                    count = numberOfItems,
+                    offset = offSet
                 });
 
             var response = await SendAsync<ItemRetrievedWrapper>(request);
@@ -99,8 +89,10 @@ namespace PocketNet.PocketNet.Client
 
         public async Task<List<ItemRetrieved>> SearchTitleOrUrlAsync(string term)
         {
-            var requestUrl = MakeRequestUri("v3/get");
+            if(string.IsNullOrEmpty(term))
+                throw new ArgumentNullException("term");
 
+            var requestUrl = MakeRequestUri("v3/get");
             var request = new HttpRequest(HttpMethod.Post, requestUrl);
 
             request.AddBody(new
