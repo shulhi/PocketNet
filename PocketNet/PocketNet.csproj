@@ -108,6 +108,7 @@
     <Compile Include="PocketNet\HttpHelpers\HttpResponseHelper.cs" />
     <Compile Include="PocketNet\Info\PocketInfo.cs" />
     <Compile Include="PocketNet\Models\Item.Added.cs" />
+    <Compile Include="PocketNet\Models\Item.Modified.cs" />
     <Compile Include="PocketNet\Models\Item.Retrieved.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
