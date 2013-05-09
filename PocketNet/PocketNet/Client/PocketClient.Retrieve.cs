@@ -23,9 +23,9 @@ namespace PocketNet.PocketNet.Client
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<ItemRetrieved>> GetAllUnreadAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
+        public async Task<ItemRetrievedWrapper> GetAllUnreadAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
-            return await GetValuesAsync(new
+            return await GetValuesAsync<ItemRetrievedWrapper>("v3/get", new
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
@@ -37,9 +37,9 @@ namespace PocketNet.PocketNet.Client
                 });
         }
 
-        public async Task<List<ItemRetrieved>> GetFavoriteAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
+        public async Task<ItemRetrievedWrapper> GetFavoriteAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
-            return await GetValuesAsync(new
+            return await GetValuesAsync<ItemRetrievedWrapper>("v3/get", new
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
@@ -51,9 +51,9 @@ namespace PocketNet.PocketNet.Client
                 });
         }
 
-        public async Task<List<ItemRetrieved>> GetArchivedAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
+        public async Task<ItemRetrievedWrapper> GetArchivedAsync(int numberOfItems = 30, int offSet = 0, int sinceInUnixTime = 0)
         {
-            return await GetValuesAsync(new
+            return await GetValuesAsync<ItemRetrievedWrapper>("v3/get", new
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
@@ -65,12 +65,12 @@ namespace PocketNet.PocketNet.Client
                 });
         }
 
-        public async Task<List<ItemRetrieved>> SearchTitleOrUrlAsync(string term)
+        public async Task<ItemRetrievedWrapper> SearchTitleOrUrlAsync(string term)
         {
             if(string.IsNullOrEmpty(term))
                 throw new ArgumentNullException("term");
 
-            return await GetValuesAsync(new
+            return await GetValuesAsync<ItemRetrievedWrapper>("v3/get", new
                 {
                     consumer_key = _consumerKey,
                     access_token = _accessToken,
@@ -80,15 +80,14 @@ namespace PocketNet.PocketNet.Client
                 });
         }
 
-        private async Task<List<ItemRetrieved>> GetValuesAsync(object parametersAsAnonymousObject)
+        private async Task<T> GetValuesAsync<T>(string resourceUri, object parametersAsAnonymousObject) where T : class
         {
-            var requestUrl = MakeRequestUri("v3/get");
+            var requestUrl = MakeRequestUri(resourceUri);
 
             var request = new HttpRequest(HttpMethod.Post, requestUrl);
             request.AddBody(parametersAsAnonymousObject);
 
-            var response = await SendAsync<ItemRetrievedWrapper>(request);
-            return response.List.Values.ToList();
+            return await SendAsync<T>(request);
         }
     }
 }
