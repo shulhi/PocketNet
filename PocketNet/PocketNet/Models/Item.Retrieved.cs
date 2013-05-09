@@ -19,7 +19,7 @@ namespace PocketNet.PocketNet.Models
         public int Since { get; set; }
 
         [JsonProperty("list")]
-        public IDictionary<string, ItemRetrieved> List { get; set; }
+        public Dictionary<string, ItemRetrieved> List { get; set; }
     }
 
     public class ItemRetrieved
