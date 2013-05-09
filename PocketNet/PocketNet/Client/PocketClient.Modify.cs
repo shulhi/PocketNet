@@ -28,5 +28,39 @@ namespace PocketNet.PocketNet.Client
 
             var response = await SendAsync<ItemModified>(request);
         }
+
+        public async Task MarkAsUnfavoriteAsync(params int[] itemId)
+        {
+            var requestUri = MakeRequestUri("v3/send");
+            var request = new HttpRequest(HttpMethod.Post, requestUri);
+
+            var items = itemId.Select(i => new { action = "unfavorite", item_id = i }).ToList();
+
+            request.AddBody(new
+            {
+                consumer_key = _consumerKey,
+                access_token = _accessToken,
+                actions = items
+            });
+
+            var response = await SendAsync<ItemModified>(request);
+        }
+
+        public async Task MarkAsDeleteAsync(params int[] itemId)
+        {
+            var requestUri = MakeRequestUri("v3/send");
+            var request = new HttpRequest(HttpMethod.Post, requestUri);
+
+            var items = itemId.Select(i => new { action = "delete", item_id = i }).ToList();
+
+            request.AddBody(new
+            {
+                consumer_key = _consumerKey,
+                access_token = _accessToken,
+                actions = items
+            });
+
+            var response = await SendAsync<ItemModified>(request);
+        }
     }
 }
